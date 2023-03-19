@@ -1,0 +1,237 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "5xvRXOg3fEj1",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        },
+        "outputId": "cf18c538-f27f-4918-ea91-9c1d7233245b"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'2.11.0'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 1
+        }
+      ],
+      "source": [
+        "import tensorflow as tf\n",
+        "\n",
+        "tf.__version__"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Hello TensorFlow!"
+      ],
+      "metadata": {
+        "id": "CDODrAab_F2N"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "hello = tf.constant(\"Hello, TensorFlow!\")\n",
+        "\n",
+        "print(hello)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "NPN5rXsx-GZn",
+        "outputId": "b5d717ef-eebc-4500-fad0-ec4d9369624c"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "tf.Tensor(b'Hello, TensorFlow!', shape=(), dtype=string)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Computational Graph"
+      ],
+      "metadata": {
+        "id": "hFmdZSGZ_KwZ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "node1 = tf.constant(3.0, tf.float32)\n",
+        "node2 = tf.constant(4.0) # 자료형 명시 안해도 ok\n",
+        "node3 = tf.add(node1, node2) # node3 = node1 + node2\n",
+        "\n",
+        "print(\"node1: \", node1, \"\\nnode2: \", node2, \"\\nnode3: \", node3)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "uyTTonSy-cw3",
+        "outputId": "5b5dfd45-6747-4562-9422-7fad3e702269"
+      },
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "node1:  tf.Tensor(3.0, shape=(), dtype=float32) \n",
+            "node2:  tf.Tensor(4.0, shape=(), dtype=float32) \n",
+            "node3:  tf.Tensor(7.0, shape=(), dtype=float32)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "@tf.function\n",
+        "def adder():\n",
+        "  return node1 + node2\n",
+        "\n",
+        "print(adder())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "azQ5DiTx7FwP",
+        "outputId": "966dabab-7cc0-4a27-f96c-e710acc510eb"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "tf.Tensor(7.0, shape=(), dtype=float32)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Placeholder(Tensorflow 2.0 placeholder 대체 코드)"
+      ],
+      "metadata": {
+        "id": "bXwdYCWeAMyM"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "@tf.function\n",
+        "def adder(a, b):\n",
+        "  return a + b\n",
+        "\n",
+        "A = tf.constant(1)\n",
+        "B = tf.constant(2)\n",
+        "print(adder(A, B))\n",
+        "\n",
+        "C = tf.constant([1, 2])\n",
+        "D = tf.constant([3, 4])\n",
+        "print(adder(C, D))\n",
+        "\n",
+        "E = tf.constant([[1, 2, 3], [4, 5, 6]])\n",
+        "F = tf.constant([[2, 3, 5], [5, 6, 7]])\n",
+        "print(adder(E, F))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "H5M924V3AFcS",
+        "outputId": "9abf48f2-9d49-44fa-c030-4330b34abd74"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "tf.Tensor(3, shape=(), dtype=int32)\n",
+            "tf.Tensor([4 6], shape=(2,), dtype=int32)\n",
+            "tf.Tensor(\n",
+            "[[ 3  5  8]\n",
+            " [ 9 11 13]], shape=(2, 3), dtype=int32)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### Tensor"
+      ],
+      "metadata": {
+        "id": "trB_hsPrArhp"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "3\n",
+        "[1., 2., 3.]\n",
+        "[[1., 2., 3.], [4., 5., 6.]]\n",
+        "[[[1., 2., 3.]], [[7., 8., 9.]]]"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jor7a38tAmQ_",
+        "outputId": "b7c13b62-90b3-4053-8043-97ad487208b8"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[[[1.0, 2.0, 3.0]], [[7.0, 8.0, 9.0]]]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 4
+        }
+      ]
+    }
+  ]
+}
